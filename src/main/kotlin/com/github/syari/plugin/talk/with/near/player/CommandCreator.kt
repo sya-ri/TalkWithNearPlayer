@@ -11,12 +11,18 @@ object CommandCreator {
         plugin.command("talk-with-near-player") {
             aliases = listOf("twnp")
             tab {
-                argument { add("move", "reload") }
+                argument { add("item", "move", "reload") }
                 argument("move") { addAll(plugin.server.onlinePlayers.map(Player::getName)) }
                 argument("move *") { add("wait", "talk") }
             }
             execute {
                 when (args.lowerOrNull(0)) {
+                    "item" -> {
+                        val player = sender as? Player ?: return@execute run {
+                            sender.sendMessage(templateMessage("&cプレイヤーからのみ実行出来るコマンドです"))
+                        }
+                        player.inventory.addItem(ToggleSpeak.item)
+                    }
                     "move" -> {
                         val player = args.getOrNull(1)?.let(Bukkit::getPlayer) ?: return@execute run {
                             sender.sendMessage(templateMessage("&cプレイヤーが見つかりませんでした"))
@@ -58,6 +64,7 @@ object CommandCreator {
                             templateMessage(
                                 """
                                     コマンド一覧
+                                    &7- &a/$label item &7ミュート切り替え用のアイテムを入手します
                                     &7- &a/$label move <Player> wait &7待機部屋にプレイヤーを移動させます
                                     &7- &a/$label move <Player> talk &7会話部屋にプレイヤーを移動させます
                                     &7- &a/$label reload &7コンフィグをリロードします
