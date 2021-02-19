@@ -14,6 +14,7 @@ version = "1.0.0"
 repositories {
     mavenCentral()
     maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    jcenter()
 }
 
 val shadowImplementation: Configuration by configurations.creating
@@ -25,6 +26,7 @@ dependencies {
     shadowImplementation("com.github.sya-ri:EasySpigotAPI:1.3.1") {
         exclude(group = "org.spigotmc", module = "spigot-api")
     }
+    shadowImplementation("net.dv8tion:JDA:4.2.0_168")
 }
 
 configure<KtlintExtension> {
