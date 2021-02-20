@@ -34,10 +34,8 @@ object ToggleSpeak : EventRegister {
             val mainHandItem = player.inventory.itemInMainHand
             if (mainHandItem.isSimilar(item)) {
                 val targetPlayer = e.rightClicked as? Player ?: return@event
-                DiscordClient.talkRoomId?.let {
-                    movePlayer(player, targetPlayer, it)
-                } ?: return@event run {
-                    player.sendMessage(templateMessage("&c会話部屋が設定されていません"))
+                DiscordClient.mute(targetPlayer, false)?.let {
+                    player.sendMessage(templateMessage("&c$it"))
                 }
             }
         }
@@ -47,10 +45,8 @@ object ToggleSpeak : EventRegister {
             if (mainHandItem.isSimilar(item)) {
                 val targetPlayer = e.entity as? Player ?: return@event
                 e.isCancelled = true
-                DiscordClient.waitRoomId?.let {
-                    movePlayer(player, targetPlayer, it)
-                } ?: return@event run {
-                    player.sendMessage(templateMessage("&c待機部屋が設定されていません"))
+                DiscordClient.mute(targetPlayer, true)?.let {
+                    player.sendMessage(templateMessage("&c$it"))
                 }
             }
         }
