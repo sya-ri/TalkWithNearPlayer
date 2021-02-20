@@ -22,12 +22,6 @@ object ToggleSpeak : EventRegister {
         }
     }
 
-    private fun movePlayer(trigger: Player, player: Player, channelId: Long) {
-        DiscordClient.move(player, channelId)?.let {
-            trigger.sendMessage(templateMessage("&c$it"))
-        }
-    }
-
     override fun Events.register() {
         event<PlayerInteractEntityEvent> { e ->
             if (Mode.mode == Mode.Item) {

@@ -26,5 +26,8 @@ class DiscordMember(val discordUserId: Long) {
         private var list = mapOf<UUIDPlayer, DiscordMember>()
 
         fun get(player: Player) = UUIDPlayer.from(player).let(list::get)
+
+        val playerList
+            get() = list.keys
     }
 }

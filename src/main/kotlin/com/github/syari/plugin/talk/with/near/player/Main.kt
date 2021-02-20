@@ -18,4 +18,8 @@ class Main : JavaPlugin() {
         CommandCreator.create()
         registerEvents(ToggleSpeak, AutoGroup)
     }
+
+    override fun onDisable() {
+        AutoGroup.clearChannels()
+    }
 }

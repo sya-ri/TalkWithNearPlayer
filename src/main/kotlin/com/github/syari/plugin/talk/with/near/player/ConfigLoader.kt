@@ -3,9 +3,8 @@ package com.github.syari.plugin.talk.with.near.player
 import com.github.syari.plugin.talk.with.near.player.Main.Companion.plugin
 import com.github.syari.spigot.api.config.config
 import com.github.syari.spigot.api.config.type.ConfigDataType
-import org.bukkit.Material
+import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import org.bukkit.command.CommandSender
-import org.bukkit.inventory.ItemStack
 
 object ConfigLoader {
     object Key {
@@ -35,16 +34,27 @@ object ConfigLoader {
                     ToggleSpeak.item = ToggleSpeak.createItem(toggleItemType, toggleItemName)
                 }
                 Mode.Auto -> {
+                    AutoGroup.radius = get(Key.auto_radius, ConfigDataType.Double, 5.0)
+                    AutoGroup.owners = get(Key.auto_player, ConfigDataType.StringList)?.mapNotNull(UUIDPlayer.Companion::from).orEmpty()
                 }
             }
         }
         DiscordMember.ConfigLoader.load(sender)
     }
 
+    fun setMode(sender: CommandSender, mode: Mode) {
+        plugin.config(sender, "config.yml", default) {
+            set(Key.mode, ConfigDataType.String, mode.toString(), true)
+        }
+    }
+
     private val default = mapOf(
         Key.discord_token to "",
         Key.discord_guild to 0L,
         Key.item_type to ToggleSpeak.defaultType.name,
-        Key.item_name to ToggleSpeak.defaultName
+        Key.item_name to ToggleSpeak.defaultName,
+        Key.mode to Mode.Item.key,
+        Key.auto_radius to 5,
+        Key.auto_player to listOf<UUIDPlayer>()
     )
 }

@@ -2,10 +2,12 @@ package com.github.syari.plugin.talk.with.near.player
 
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException
 import net.dv8tion.jda.api.exceptions.RateLimitedException
 import net.dv8tion.jda.api.requests.GatewayIntent
 import org.bukkit.entity.Player
+import java.util.concurrent.RejectedExecutionException
 import javax.security.auth.login.LoginException
 
 object DiscordClient {
@@ -61,5 +63,24 @@ object DiscordClient {
             ex.printStackTrace()
         }
         return null
+    }
+
+    sealed class CreateResult {
+        class Success(val channel: VoiceChannel) : CreateResult()
+        class Failure(val message: String) : CreateResult()
+    }
+
+    fun crate(name: String): CreateResult {
+        val guild = guildId?.let { jda?.getGuildById(it) } ?: return CreateResult.Failure("ギルドが見つかりませんでした")
+        val channel = try {
+            guild.createVoiceChannel(name).complete()
+        } catch (ex: RejectedExecutionException) {
+            return CreateResult.Failure("チャンネルの作成に失敗しました")
+        }
+        return CreateResult.Success(channel)
+    }
+
+    fun removeChannel(id: Long) {
+        jda?.getVoiceChannelById(id)?.delete()?.complete()
     }
 }

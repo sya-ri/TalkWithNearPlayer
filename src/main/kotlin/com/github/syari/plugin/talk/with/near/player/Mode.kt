@@ -7,6 +7,6 @@ enum class Mode(val key: String) {
     companion object {
         var mode = Item
 
-        fun get(key: String) = values().firstOrNull { it.key == key }
+        fun get(key: String) = values().firstOrNull { it.key.equals(key, true) }
     }
 }
