@@ -34,21 +34,7 @@ object CommandCreator {
                         player.inventory.addItem(ToggleSpeak.item)
                     }
                     "auto" -> {
-                        when (args.lowerOrNull(1)) {
-                            "list" -> {
-                                sender.sendMessage("会話部屋のオーナー: &7${AutoGroup.owners.map { it.offlinePlayer.name }.joinToString()}")
-                            }
-                            else -> {
-                                sender.sendMessage(
-                                    templateMessage(
-                                        """
-                                            コマンド一覧
-                                            &7- &a/$label auto list &7会話部屋のオーナープレイヤーの一覧を表示します
-                                        """.trimIndent()
-                                    )
-                                )
-                            }
-                        }
+                        sender.sendMessage(templateMessage("会話部屋のオーナー: &7${AutoGroup.owners.joinToString { it.offlinePlayer.name ?: it.uniqueId.toString() }}"))
                     }
                     "reload" -> {
                         sender.sendMessage(templateMessage("コンフィグをリロードします"))
@@ -60,7 +46,9 @@ object CommandCreator {
                             templateMessage(
                                 """
                                     コマンド一覧
-                                    &7- &a/$label item &7ミュート切り替え用のアイテムを入手します
+                                    &7- &a/$label mode [Auto/Item] &7モードの切り替えをします
+                                    &7- &a/$label item &7アイテムモードでのミュート切り替え用のアイテムを入手します
+                                    &7- &a/$label auto &7自動モードでのオーナープレイヤーの一覧を確認します
                                     &7- &a/$label reload &7コンフィグをリロードします
                                 """.trimIndent()
                             )
