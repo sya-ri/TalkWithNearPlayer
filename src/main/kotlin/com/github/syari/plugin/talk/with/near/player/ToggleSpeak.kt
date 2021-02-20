@@ -30,23 +30,27 @@ object ToggleSpeak : EventRegister {
 
     override fun Events.register() {
         event<PlayerInteractEntityEvent> { e ->
-            val player = e.player
-            val mainHandItem = player.inventory.itemInMainHand
-            if (mainHandItem.isSimilar(item)) {
-                val targetPlayer = e.rightClicked as? Player ?: return@event
-                DiscordClient.mute(targetPlayer, false)?.let {
-                    player.sendMessage(templateMessage("&c$it"))
+            if (Mode.mode == Mode.Item) {
+                val player = e.player
+                val mainHandItem = player.inventory.itemInMainHand
+                if (mainHandItem.isSimilar(item)) {
+                    val targetPlayer = e.rightClicked as? Player ?: return@event
+                    DiscordClient.mute(targetPlayer, false)?.let {
+                        player.sendMessage(templateMessage("&c$it"))
+                    }
                 }
             }
         }
         event<EntityDamageByEntityEvent> { e ->
-            val player = e.damager as? Player ?: return@event
-            val mainHandItem = player.inventory.itemInMainHand
-            if (mainHandItem.isSimilar(item)) {
-                val targetPlayer = e.entity as? Player ?: return@event
-                e.isCancelled = true
-                DiscordClient.mute(targetPlayer, true)?.let {
-                    player.sendMessage(templateMessage("&c$it"))
+            if (Mode.mode == Mode.Item) {
+                val player = e.damager as? Player ?: return@event
+                val mainHandItem = player.inventory.itemInMainHand
+                if (mainHandItem.isSimilar(item)) {
+                    val targetPlayer = e.entity as? Player ?: return@event
+                    e.isCancelled = true
+                    DiscordClient.mute(targetPlayer, true)?.let {
+                        player.sendMessage(templateMessage("&c$it"))
+                    }
                 }
             }
         }

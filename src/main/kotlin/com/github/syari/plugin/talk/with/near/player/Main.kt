@@ -16,6 +16,6 @@ class Main : JavaPlugin() {
     override fun onEnable() {
         ConfigLoader.load(server.consoleSender)
         CommandCreator.create()
-        registerEvents(ToggleSpeak)
+        registerEvents(ToggleSpeak, AutoGroup)
     }
 }
