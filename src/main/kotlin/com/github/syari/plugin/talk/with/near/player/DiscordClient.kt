@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException
 import net.dv8tion.jda.api.exceptions.RateLimitedException
 import net.dv8tion.jda.api.requests.GatewayIntent
+import net.dv8tion.jda.api.utils.cache.CacheFlag
 import org.bukkit.entity.Player
 import java.util.concurrent.RejectedExecutionException
 import javax.security.auth.login.LoginException
@@ -26,6 +27,7 @@ object DiscordClient {
                 try {
                     JDABuilder.create(GatewayIntent.GUILD_VOICE_STATES).apply {
                         setToken(it)
+                        disableCache(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS)
                     }.build()
                 } catch (ex: LoginException) {
                     ex.printStackTrace()
