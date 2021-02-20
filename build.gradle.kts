@@ -42,5 +42,7 @@ configure<BukkitPluginDescription> {
     name = project.name
     version = project.version.toString()
     main = "com.github.syari.plugin.talk.with.near.player.Main"
+    author = "sya_ri"
+    website = "https://github.com/sya-ri/TalkWithNearPlayer"
     apiVersion = "1.16"
 }
