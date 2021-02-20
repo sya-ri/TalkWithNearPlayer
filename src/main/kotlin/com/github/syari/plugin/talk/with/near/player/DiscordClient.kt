@@ -38,9 +38,13 @@ object DiscordClient {
         }
     }
 
+    private val lastMute = mutableMapOf<Long, Boolean>()
+
     fun mute(player: Player, mute: Boolean): String? {
         val guild = guildId?.let { jda?.getGuildById(it) } ?: return "ギルドが見つかりませんでした"
         val userId = DiscordMember.get(player)?.discordUserId ?: return "アカウントの紐付けがされていません"
+        if (lastMute[userId] == mute) return null
+        lastMute[userId] = mute
         val member = guild.getMemberById(userId) ?: return "ユーザーが見つかりませんでした"
         return try {
             member.mute(mute).submit().join()
@@ -54,9 +58,13 @@ object DiscordClient {
         }
     }
 
+    private val lastRoom = mutableMapOf<Long, Long>()
+
     fun move(player: Player, room: Long): String? {
         val guild = guildId?.let { jda?.getGuildById(it) } ?: return "ギルドが見つかりませんでした"
         val userId = DiscordMember.get(player)?.discordUserId ?: return "アカウントの紐付けがされていません"
+        if (lastRoom[userId] == room) return null
+        lastRoom[userId] = room
         val member = guild.getMemberById(userId) ?: return "ユーザーが見つかりませんでした"
         val channel = jda?.getVoiceChannelById(room) ?: return "チャンネルが見つかりませんでした"
         try {
