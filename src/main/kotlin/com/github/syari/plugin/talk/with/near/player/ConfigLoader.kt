@@ -32,19 +32,14 @@ object ConfigLoader {
                 DiscordClient.guildId = get(Key.discord_guild, ConfigDataType.Long)
             }
             Mode.mode = get(Key.mode, ConfigDataType.String)?.let(Mode.Companion::get) ?: Mode.Item
-            when (Mode.mode) {
-                Mode.Item -> {
-                    val toggleItemType = get(Key.item_type, ConfigDataType.Material, ToggleMuteUseItem.defaultType, false)
-                    val toggleItemName = get(Key.item_name, ConfigDataType.String, ToggleMuteUseItem.defaultName, false)
-                    ToggleMuteUseItem.item = ToggleMuteUseItem.createItem(toggleItemType, toggleItemName)
-                }
-                Mode.Auto -> {
-                    AutoGroupOnMove.radius = get(Key.auto_radius, ConfigDataType.Double, AutoGroupOnMove.defaultRadius)
-                    AutoGroupOnMove.owners = get(Key.auto_player, ConfigDataType.StringList)?.mapNotNull(UUIDPlayer.Companion::from).orEmpty().toMutableList()
-                }
-            }
+            val toggleItemType = get(Key.item_type, ConfigDataType.Material, ToggleMuteUseItem.defaultType, false)
+            val toggleItemName = get(Key.item_name, ConfigDataType.String, ToggleMuteUseItem.defaultName, false)
+            ToggleMuteUseItem.item = ToggleMuteUseItem.createItem(toggleItemType, toggleItemName)
+            AutoGroupOnMove.radius = get(Key.auto_radius, ConfigDataType.Double, AutoGroupOnMove.defaultRadius)
+            AutoGroupOnMove.owners = get(Key.auto_player, ConfigDataType.StringList)?.mapNotNull(UUIDPlayer.Companion::from).orEmpty().toMutableList()
         }
         DiscordMember.ConfigLoader.load(sender)
+        Mode.applyMode()
     }
 
     fun setMode(sender: CommandSender, mode: Mode) {

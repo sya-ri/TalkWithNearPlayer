@@ -22,6 +22,6 @@ class Main : JavaPlugin() {
     }
 
     override fun onDisable() {
-        AutoGroupOnMove.clearChannels()
+        AutoGroupOnMove.clearVoiceChannels()
     }
 }

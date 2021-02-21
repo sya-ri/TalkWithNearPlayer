@@ -15,12 +15,12 @@ object AutoGroupOnMove : EventRegister {
 
     var radius = defaultRadius
     var owners = mutableListOf<UUIDPlayer>()
-        set(value) {
-            field = value
-            plugin.runTaskLater(20, true) {
-                (value + null).forEach(::createVoiceChannel)
-            }
+
+    fun createAllVoiceChannel() {
+        plugin.runTaskLater(20, true) {
+            (owners + null).forEach(::createVoiceChannel)
         }
+    }
 
     fun createVoiceChannel(uuidPlayer: UUIDPlayer?) {
         if (ownerToChannel.contains(uuidPlayer).not()) {
@@ -35,6 +35,11 @@ object AutoGroupOnMove : EventRegister {
 
     fun removeVoiceChannel(uuidPlayer: UUIDPlayer?) {
         ownerToChannel[uuidPlayer]?.let(DiscordClient::removeChannel)
+    }
+
+    fun clearVoiceChannels() {
+        ownerToChannel.values.forEach(DiscordClient::removeChannel)
+        ownerToChannel.clear()
     }
 
     private val ownerToChannel = mutableMapOf<UUIDPlayer?, Long>()
@@ -114,9 +119,5 @@ object AutoGroupOnMove : EventRegister {
             }
             lastConnectChannel = connectChannel
         }
-    }
-
-    fun clearChannels() {
-        ownerToChannel.values.forEach(DiscordClient::removeChannel)
     }
 }

@@ -8,5 +8,13 @@ enum class Mode(val key: String) {
         var mode = Item
 
         fun get(key: String) = values().firstOrNull { it.key.equals(key, true) }
+
+        fun applyMode() {
+            if (mode == Auto) {
+                AutoGroupOnMove.createAllVoiceChannel()
+            } else {
+                AutoGroupOnMove.clearVoiceChannels()
+            }
+        }
     }
 }

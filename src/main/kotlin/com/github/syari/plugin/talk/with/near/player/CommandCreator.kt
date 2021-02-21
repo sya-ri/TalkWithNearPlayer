@@ -31,6 +31,7 @@ object CommandCreator {
                         if (mode != null) {
                             sender.sendMessage(templateMessage("モードを ${Mode.mode} から $mode に変更しました"))
                             Mode.mode = mode
+                            Mode.applyMode()
                             ConfigLoader.setMode(sender, mode)
                         } else {
                             sender.sendMessage(templateMessage("現在のモードは ${Mode.mode} &fです"))
