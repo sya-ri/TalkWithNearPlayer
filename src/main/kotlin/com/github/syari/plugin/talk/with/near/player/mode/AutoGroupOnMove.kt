@@ -54,14 +54,12 @@ object AutoGroupOnMove : EventRegister {
                 if (coolTime.contains(uuidPlayer)) return@event
                 updateConnectChannel()
                 coolTime.add(uuidPlayer)
-                plugin.runTaskLater(5, true) {
+                plugin.runTaskLater(5) {
                     coolTime.remove(uuidPlayer)
                 }
             }
         }
     }
-
-    private var lastConnectChannel = mapOf<UUIDPlayer, Long>()
 
     private fun updateConnectChannel() {
         val voiceMemberList = DiscordMember.playerList.toMutableSet()
@@ -106,19 +104,16 @@ object AutoGroupOnMove : EventRegister {
             }
         }
 
-        if (lastConnectChannel != connectChannel) {
-            connectChannel.forEach { (uuidPlayer, channel) ->
-                val player = uuidPlayer.player ?: return@forEach
+        connectChannel.forEach { (uuidPlayer, channel) ->
+            val player = uuidPlayer.player ?: return@forEach
+            DiscordClient.move(player, channel)
+        }
+        voiceMemberList.forEach {
+            val player = it.player ?: return@forEach
+            val channel = ownerToChannel[null]
+            if (channel != null) {
                 DiscordClient.move(player, channel)
             }
-            voiceMemberList.forEach {
-                val player = it.player ?: return@forEach
-                val channel = ownerToChannel[null]
-                if (channel != null) {
-                    DiscordClient.move(player, channel)
-                }
-            }
-            lastConnectChannel = connectChannel
         }
     }
 }

@@ -59,7 +59,7 @@ object DiscordClient {
         val uuidPlayer = UUIDPlayer.from(player)
         if (muteCoolTime.contains(uuidPlayer)) return null
         muteCoolTime.add(uuidPlayer)
-        plugin.runTaskLater(10, true) {
+        plugin.runTaskLater(10) {
             muteCoolTime.remove(uuidPlayer)
         }
         val guild = guild ?: return "ギルドが見つかりませんでした"
@@ -86,7 +86,7 @@ object DiscordClient {
         val uuidPlayer = UUIDPlayer.from(player)
         if (moveCoolTime.contains(uuidPlayer)) return null
         moveCoolTime.add(uuidPlayer)
-        plugin.runTaskLater(15, true) {
+        plugin.runTaskLater(15) {
             moveCoolTime.remove(uuidPlayer)
         }
         val guild = guild ?: return "ギルドが見つかりませんでした"
