@@ -13,6 +13,27 @@
 
 専用のアイテムでプレイヤーをクリックすることでミュートを切り替えることができます。
 
+## 導入
+
+1. https://discord.com/developers/applications でボットを作成する。
+    1. `New Application` をクリック。
+    2. `NAME` にボットの名前を入力。
+    3. 左のタブから `Bot` を選択。
+    4. `Add Bot` を押す。
+    5. `TOKEN` セクションの `Copy` をクリックしてどこかにメモっておく。(`config.yml` の `discord.token` に入力する。)
+    6. 左のタブから `OAuth2` を選択。
+    7. `SCOPES` から `bot` を選択。
+    8. `BOT PERMISSIONS` から `Administrator` を選択。
+    9. `SCOPES` に表示されているURLをコピーし、アクセスする。
+    10. 導入するDiscordサーバーを選択する。
+2. プラグインをダウンロードする。
+3. プラグインをサーバーに導入する。
+4. `TalkWithNearPlayer/config.yml` に必要な項目を入力する。
+    `discord.token` に `1.5` のトークンを入力する。
+    その他のコンフィグは自由に設定をする。コマンドで設定することも可能。
+5. サーバーを起動する。
+6. 機能を利用するには必ずどこかのボイスチャンネルに入っている必要があるので注意する。
+
 ## コンフィグ
 
 ### config.yml
@@ -47,6 +68,8 @@ auto: # mode == Auto : 自動部屋移動の設定
 
 | コマンド | 説明 |
 |--------|------|
+| /twnp connect | Discordと連携します。|
+| /twnp disconnect | Discordとの連携を解除します。|
 
 ### /twnpa
 `/talk-with-near-player-admin` というコマンドの省略形です。設定・管理用のコマンドです。
