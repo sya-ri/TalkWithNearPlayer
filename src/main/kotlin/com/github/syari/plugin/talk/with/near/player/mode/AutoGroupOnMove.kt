@@ -19,6 +19,7 @@ object AutoGroupOnMove : EventRegister {
     fun createAllVoiceChannel() {
         plugin.runTaskLater(20, true) {
             (owners + null).forEach(::createVoiceChannel)
+            ownerToChannel[null]?.let(DiscordClient::addMutePermission)
         }
     }
 

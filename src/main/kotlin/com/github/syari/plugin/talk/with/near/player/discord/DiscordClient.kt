@@ -6,6 +6,7 @@ import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException
@@ -121,6 +122,20 @@ object DiscordClient {
 
     fun removeChannel(id: Long) {
         jda?.getVoiceChannelById(id)?.delete()?.complete()
+    }
+
+    fun addMutePermission(id: Long): String? {
+        val guild = guild ?: return "ギルドが見つかりませんでした"
+        val channel = jda?.getVoiceChannelById(id) ?: return "チャンネルが見つかりませんでした"
+        return try {
+            val overrideAction = channel.getPermissionOverride(guild.publicRole)?.manager ?: channel.createPermissionOverride(guild.publicRole)
+            overrideAction.setDeny(Permission.VOICE_SPEAK).complete()
+            null
+        } catch (ex: InsufficientPermissionException) {
+            "ボットの権限がありません"
+        } catch (ex: IllegalArgumentException) {
+            "存在しないメンバーです"
+        }
     }
 
     fun getUser(id: Long): User? {
