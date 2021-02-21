@@ -5,6 +5,7 @@ import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException
 import net.dv8tion.jda.api.exceptions.RateLimitedException
@@ -20,17 +21,24 @@ object DiscordClient {
 
     var guildId: Long? = null
 
+    private val guild
+        get() = guildId?.let { jda?.getGuildById(it) }
+
     val isLogin
         get() = jda != null
+
+    val botName
+        get() = jda?.selfUser?.name
 
     fun login(token: String?) {
         if (token != lastToken) {
             jda?.shutdownNow()
             jda = token?.let {
                 try {
-                    JDABuilder.create(GatewayIntent.GUILD_VOICE_STATES).apply {
+                    JDABuilder.create(GatewayIntent.DIRECT_MESSAGES).apply {
                         setToken(it)
-                        disableCache(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS)
+                        disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS)
+                        addEventListeners(DiscordEventListener)
                     }.build()
                 } catch (ex: LoginException) {
                     ex.printStackTrace()
@@ -51,7 +59,7 @@ object DiscordClient {
         plugin.runTaskLater(10, true) {
             muteCoolTime.remove(uuidPlayer)
         }
-        val guild = guildId?.let { jda?.getGuildById(it) } ?: return "ギルドが見つかりませんでした"
+        val guild = guild ?: return "ギルドが見つかりませんでした"
         val userId = DiscordMember.get(player)?.discordUserId ?: return "アカウントの紐付けがされていません"
         if (lastMute[userId] == mute) return null
         lastMute[userId] = mute
@@ -72,7 +80,7 @@ object DiscordClient {
     private val lastRoom = mutableMapOf<Long, Long>()
 
     fun move(player: Player, room: Long): String? {
-        val guild = guildId?.let { jda?.getGuildById(it) } ?: return "ギルドが見つかりませんでした"
+        val guild = guild ?: return "ギルドが見つかりませんでした"
         val userId = DiscordMember.get(player)?.discordUserId ?: return "アカウントの紐付けがされていません"
         if (lastRoom[userId] == room) return null
         lastRoom[userId] = room
@@ -92,7 +100,7 @@ object DiscordClient {
     }
 
     fun crate(name: String): CreateResult {
-        val guild = guildId?.let { jda?.getGuildById(it) } ?: return CreateResult.Failure("ギルドが見つかりませんでした")
+        val guild = guild ?: return CreateResult.Failure("ギルドが見つかりませんでした")
         val channel = try {
             guild.createVoiceChannel(name).complete()
         } catch (ex: RejectedExecutionException) {
@@ -103,5 +111,9 @@ object DiscordClient {
 
     fun removeChannel(id: Long) {
         jda?.getVoiceChannelById(id)?.delete()?.complete()
+    }
+
+    fun getUser(id: Long): User? {
+        return jda?.getUserById(id)
     }
 }

@@ -1,6 +1,8 @@
 package com.github.syari.plugin.talk.with.near.player
 
 import com.github.syari.plugin.talk.with.near.player.Main.Companion.plugin
+import com.github.syari.plugin.talk.with.near.player.discord.DiscordClient
+import com.github.syari.plugin.talk.with.near.player.discord.DiscordMember
 import com.github.syari.plugin.talk.with.near.player.mode.AutoGroupOnMove
 import com.github.syari.plugin.talk.with.near.player.mode.Mode
 import com.github.syari.plugin.talk.with.near.player.mode.ToggleMuteUseItem
@@ -17,9 +19,47 @@ object CommandCreator {
             aliases = listOf("twnp")
             permission = "twnp.player"
             tab {
+                argument { add("connect", "disconnect") }
             }
             execute {
-                sender.sendMessage("Talk With Near Player")
+                when (args.lowerOrNull(0)) {
+                    "connect" -> {
+                        val player = sender as? Player ?: return@execute run {
+                            sender.sendMessage(templateMessage("&cプレイヤーからのみ実行出来るコマンドです"))
+                        }
+                        val member = DiscordMember.get(player)
+                        if (member != null) {
+                            sender.sendMessage(templateMessage("&6${member.asTag ?: member.discordUserId} &fと連携しています。連携解除は &a/$label disconnect"))
+                        } else {
+                            val uuidPlayer = UUIDPlayer.from(player)
+                            val authCode = DiscordMember.generateAuthCode(uuidPlayer)
+                            sender.sendMessage(templateMessage("&6$authCode &fというメッセージを &6${DiscordClient.botName} &fのダイレクトメッセージに送信してください"))
+                        }
+                    }
+                    "disconnect" -> {
+                        val player = sender as? Player ?: return@execute run {
+                            sender.sendMessage(templateMessage("&cプレイヤーからのみ実行出来るコマンドです"))
+                        }
+                        val member = DiscordMember.get(player)
+                        if (member != null) {
+                            val uuidPlayer = UUIDPlayer.from(player)
+                            DiscordMember.removePlayer(uuidPlayer)
+                            sender.sendMessage(templateMessage("&6${member.asTag ?: member.discordUserId} &fとの連携を解除しました"))
+                        } else {
+                            sender.sendMessage(templateMessage("&fDiscordと連携していません"))
+                        }
+                    }
+                    else -> {
+                        sender.sendMessage(
+                            templateMessage(
+                                """
+                                    コマンド一覧
+                                    &7- &a/$label connect &7Discordと連携します
+                                """.trimIndent()
+                            )
+                        )
+                    }
+                }
             }
         }
         plugin.command("talk-with-near-player-admin") {
