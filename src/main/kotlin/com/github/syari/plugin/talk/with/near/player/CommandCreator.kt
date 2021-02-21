@@ -54,6 +54,7 @@ object CommandCreator {
                                 """
                                     コマンド一覧
                                     &7- &a/$label connect &7Discordと連携します
+                                    &7- &a/$label disconnect &7Discordとの連携を解除します
                                 """.trimIndent()
                             )
                         )
