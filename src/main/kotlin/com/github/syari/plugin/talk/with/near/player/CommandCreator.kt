@@ -1,6 +1,9 @@
 package com.github.syari.plugin.talk.with.near.player
 
 import com.github.syari.plugin.talk.with.near.player.Main.Companion.plugin
+import com.github.syari.plugin.talk.with.near.player.mode.AutoGroupOnMove
+import com.github.syari.plugin.talk.with.near.player.mode.Mode
+import com.github.syari.plugin.talk.with.near.player.mode.ToggleMuteUseItem
 import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
 import org.bukkit.entity.Player
@@ -32,10 +35,10 @@ object CommandCreator {
                         val player = sender as? Player ?: return@execute run {
                             sender.sendMessage(templateMessage("&cプレイヤーからのみ実行出来るコマンドです"))
                         }
-                        player.inventory.addItem(ToggleSpeak.item)
+                        player.inventory.addItem(ToggleMuteUseItem.item)
                     }
                     "auto" -> {
-                        sender.sendMessage(templateMessage("会話部屋のオーナー: &7${AutoGroup.owners.joinToString { it.offlinePlayer.name ?: it.uniqueId.toString() }}"))
+                        sender.sendMessage(templateMessage("会話部屋のオーナー: &7${AutoGroupOnMove.owners.joinToString { it.offlinePlayer.name ?: it.uniqueId.toString() }}"))
                     }
                     "reload" -> {
                         sender.sendMessage(templateMessage("コンフィグをリロードします"))

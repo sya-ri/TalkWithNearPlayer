@@ -1,4 +1,4 @@
-package com.github.syari.plugin.talk.with.near.player
+package com.github.syari.plugin.talk.with.near.player.mode
 
 enum class Mode(val key: String) {
     Item("item"),

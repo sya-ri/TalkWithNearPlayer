@@ -1,6 +1,8 @@
-package com.github.syari.plugin.talk.with.near.player
+package com.github.syari.plugin.talk.with.near.player.mode
 
 import com.github.syari.plugin.talk.with.near.player.Main.Companion.plugin
+import com.github.syari.plugin.talk.with.near.player.discord.DiscordClient
+import com.github.syari.plugin.talk.with.near.player.discord.DiscordMember
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
 import com.github.syari.spigot.api.scheduler.runTaskLater
@@ -8,7 +10,7 @@ import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerMoveEvent
 
-object AutoGroup : EventRegister {
+object AutoGroupOnMove : EventRegister {
     const val defaultRadius = 5.0
 
     var radius = defaultRadius

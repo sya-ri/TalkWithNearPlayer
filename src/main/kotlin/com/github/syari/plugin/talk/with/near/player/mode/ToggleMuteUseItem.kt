@@ -1,5 +1,8 @@
-package com.github.syari.plugin.talk.with.near.player
+package com.github.syari.plugin.talk.with.near.player.mode
 
+import com.github.syari.plugin.talk.with.near.player.discord.DiscordClient
+import com.github.syari.plugin.talk.with.near.player.templateMessage
+import com.github.syari.plugin.talk.with.near.player.toColor
 import com.github.syari.spigot.api.event.register.EventRegister
 import com.github.syari.spigot.api.event.register.Events
 import org.bukkit.Material
@@ -8,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.inventory.ItemStack
 
-object ToggleSpeak : EventRegister {
+object ToggleMuteUseItem : EventRegister {
     val defaultType = Material.SLIME_BALL
     const val defaultName = "&aミュート切り替え"
 

@@ -1,4 +1,4 @@
-package com.github.syari.plugin.talk.with.near.player
+package com.github.syari.plugin.talk.with.near.player.discord
 
 import com.github.syari.plugin.talk.with.near.player.Main.Companion.plugin
 import com.github.syari.spigot.api.config.config
