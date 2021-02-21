@@ -79,8 +79,15 @@ object DiscordClient {
     }
 
     private val lastRoom = mutableMapOf<Long, Long>()
+    private val moveCoolTime = mutableSetOf<UUIDPlayer>()
 
     fun move(player: Player, room: Long): String? {
+        val uuidPlayer = UUIDPlayer.from(player)
+        if (moveCoolTime.contains(uuidPlayer)) return null
+        moveCoolTime.add(uuidPlayer)
+        plugin.runTaskLater(15, true) {
+            moveCoolTime.remove(uuidPlayer)
+        }
         val guild = guild ?: return "ギルドが見つかりませんでした"
         val userId = DiscordMember.get(player)?.discordUserId ?: return "アカウントの紐付けがされていません"
         if (lastRoom[userId] == room) return null
