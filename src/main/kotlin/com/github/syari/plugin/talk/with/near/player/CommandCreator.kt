@@ -17,7 +17,6 @@ object CommandCreator {
     fun create() {
         plugin.command("talk-with-near-player") {
             aliases = listOf("twnp")
-            permission = "twnp.player"
             tab {
                 argument { add("connect", "disconnect") }
             }

@@ -62,10 +62,6 @@ auto: # mode == Auto : 自動部屋移動の設定
 ### /twnp
 `/talk-with-near-player` というコマンドの省略形です。通常プレイヤー向けのコマンドです。
 
-| 権限名 | 説明 |
-|-------|-----|
-| twnp.player | `/twnp` コマンドの実行権限 |
-
 | コマンド | 説明 |
 |--------|------|
 | /twnp connect | Discordと連携します。|
@@ -89,12 +85,6 @@ auto: # mode == Auto : 自動部屋移動の設定
 | /twnpa auto player remove | 自動部屋分けモードのオーナーを削除します。|
 | /twnpa auto player list | 自動部屋分けモードのオーナー一覧を表示します。|
 | /twnpa reload | コンフィグのリロードをします。|
-
-## 権限
-
-| 権限名 | 説明 |
-|-------|-----|
-| twnp.command.admin | `/twnpa` コマンドの実行権限 |
 
 ## 開発者向け
 

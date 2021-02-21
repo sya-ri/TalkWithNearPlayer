@@ -1,6 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
-import net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
@@ -46,9 +45,4 @@ configure<BukkitPluginDescription> {
     author = "sya_ri"
     website = "https://github.com/sya-ri/TalkWithNearPlayer"
     apiVersion = "1.16"
-    permissions {
-        register("twnp.player") {
-            default = Default.TRUE
-        }
-    }
 }
