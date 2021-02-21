@@ -38,23 +38,40 @@ auto: # mode == Auto : 自動部屋移動の設定
 
 ## コマンド
 
+### /twnp
+`/talk-with-near-player` というコマンドの省略形です。通常プレイヤー向けのコマンドです。
+
+| 権限名 | 説明 |
+|-------|-----|
+| twnp.player | `/twnp` コマンドの実行権限 |
+
 | コマンド | 説明 |
 |--------|------|
-| /twnp mode | モードの切り替えが可能です。|
-| /twnp mode Auto | 自動部屋分けモードになります。|
-| /twnp mode Item | アイテムを使ったミュート切り替えモードになります。|
-| /twnp item | ミュート切り替え用のアイテムを入手します。|
-| /twnp auto radius | 自動部屋分けモードの声が聞こえる範囲を設定します。|
-| /twnp auto player add | 自動部屋分けモードのオーナーを追加します。|
-| /twnp auto player remove | 自動部屋分けモードのオーナーを削除します。|
-| /twnp auto player list | 自動部屋分けモードのオーナー一覧を表示します。|
-| /twnp reload | コンフィグのリロードをします。|
+
+### /twnpa
+`/talk-with-near-player-admin` というコマンドの省略形です。設定・管理用のコマンドです。
+
+| 権限名 | 説明 |
+|-------|-----|
+| twnp.admin | `/twnpa` コマンドの実行権限 |
+
+| コマンド | 説明 |
+|--------|------|
+| /twnpa mode | モードの切り替えが可能です。|
+| /twnpa mode Auto | 自動部屋分けモードになります。|
+| /twnpa mode Item | アイテムを使ったミュート切り替えモードになります。|
+| /twnpa item | ミュート切り替え用のアイテムを入手します。|
+| /twnpa auto radius | 自動部屋分けモードの声が聞こえる範囲を設定します。|
+| /twnpa auto player add | 自動部屋分けモードのオーナーを追加します。|
+| /twnpa auto player remove | 自動部屋分けモードのオーナーを削除します。|
+| /twnpa auto player list | 自動部屋分けモードのオーナー一覧を表示します。|
+| /twnpa reload | コンフィグのリロードをします。|
 
 ## 権限
 
 | 権限名 | 説明 |
 |-------|-----|
-| twnp.command | コマンドの実行権限 |
+| twnp.command.admin | `/twnpa` コマンドの実行権限 |
 
 ## 開発者向け
 
