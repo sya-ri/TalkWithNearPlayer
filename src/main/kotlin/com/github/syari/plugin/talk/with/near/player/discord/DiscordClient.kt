@@ -35,9 +35,10 @@ object DiscordClient {
             jda?.shutdownNow()
             jda = token?.let {
                 try {
-                    JDABuilder.create(GatewayIntent.DIRECT_MESSAGES).apply {
+                    val gatewayIntents = listOf(GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.DIRECT_MESSAGES)
+                    JDABuilder.create(gatewayIntents).apply {
                         setToken(it)
-                        disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS)
+                        disableCache(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS)
                         addEventListeners(DiscordEventListener)
                     }.build()
                 } catch (ex: LoginException) {
