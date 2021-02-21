@@ -9,6 +9,7 @@ object CommandCreator {
     fun create() {
         plugin.command("talk-with-near-player") {
             aliases = listOf("twnp")
+            permission = "twnp.command"
             tab {
                 argument { add("mode", "item", "auto", "reload") }
                 argument("mode") { addAll(Mode.values().map(Mode::name)) }
