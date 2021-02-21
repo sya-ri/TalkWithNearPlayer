@@ -48,7 +48,13 @@ object ConfigLoader {
         }
     }
 
-    fun setOwnerPlayer(sender: CommandSender, owners: List<UUIDPlayer>) {
+    fun setAutoRadius(sender: CommandSender, radius: Double) {
+        plugin.config(sender, "config.yml", default) {
+            set(Key.auto_radius, ConfigDataType.Double, radius, true)
+        }
+    }
+
+    fun setAutoPlayer(sender: CommandSender, owners: List<UUIDPlayer>) {
         plugin.config(sender, "config.yml", default) {
             set(Key.auto_player, ConfigDataType.UUIDList, owners.map(UUIDPlayer::uniqueId), true)
         }

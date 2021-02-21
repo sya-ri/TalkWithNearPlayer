@@ -29,12 +29,12 @@ object CommandCreator {
                     "mode" -> {
                         val mode = args.lowerOrNull(1)?.let(Mode::get)
                         if (mode != null) {
-                            sender.sendMessage(templateMessage("モードを ${Mode.mode} から $mode に変更しました"))
+                            sender.sendMessage(templateMessage("モードを &6${Mode.mode} &fから &6$mode &fに変更しました"))
                             Mode.mode = mode
                             Mode.applyMode()
                             ConfigLoader.setMode(sender, mode)
                         } else {
-                            sender.sendMessage(templateMessage("現在のモードは ${Mode.mode} &fです"))
+                            sender.sendMessage(templateMessage("現在のモードは &6${Mode.mode} &fです"))
                         }
                     }
                     "item" -> {
@@ -46,6 +46,14 @@ object CommandCreator {
                     "auto" -> {
                         when (args.lowerOrNull(1)) {
                             "radius" -> {
+                                val radius = args.lowerOrNull(2)?.toDoubleOrNull()
+                                if (radius != null) {
+                                    sender.sendMessage(templateMessage("声が聞こえる範囲を &6${AutoGroupOnMove.radius} &fから &6$radius &fに変更しました"))
+                                    AutoGroupOnMove.radius = radius
+                                    ConfigLoader.setAutoRadius(sender, radius)
+                                } else {
+                                    sender.sendMessage(templateMessage("声が聞こえる範囲は &6${AutoGroupOnMove.radius} &fになっています"))
+                                }
                             }
                             "player" -> {
                                 @Suppress("DEPRECATION")
@@ -56,12 +64,12 @@ object CommandCreator {
                                         }
                                         val uuidPlayer = UUIDPlayer.from(arg) ?: UUIDPlayer.Companion.from(Bukkit.getOfflinePlayer(arg))
                                         if (AutoGroupOnMove.owners.contains(uuidPlayer)) {
-                                            sender.sendMessage(templateMessage("&c${uuidPlayer.displayName} はオーナープレイヤーです"))
+                                            sender.sendMessage(templateMessage("&6${uuidPlayer.displayName} &cはオーナープレイヤーです"))
                                         } else {
                                             AutoGroupOnMove.owners.add(uuidPlayer)
-                                            ConfigLoader.setOwnerPlayer(sender, AutoGroupOnMove.owners)
+                                            ConfigLoader.setAutoPlayer(sender, AutoGroupOnMove.owners)
                                             AutoGroupOnMove.createVoiceChannel(uuidPlayer)
-                                            sender.sendMessage(templateMessage("${uuidPlayer.displayName} をオーナープレイヤーに追加しました"))
+                                            sender.sendMessage(templateMessage("&6${uuidPlayer.displayName} &fをオーナープレイヤーに追加しました"))
                                         }
                                     }
                                     "remove" -> {
@@ -71,11 +79,11 @@ object CommandCreator {
                                         val uuidPlayer = UUIDPlayer.from(arg) ?: UUIDPlayer.Companion.from(Bukkit.getOfflinePlayer(arg))
                                         if (AutoGroupOnMove.owners.contains(uuidPlayer)) {
                                             AutoGroupOnMove.owners.remove(uuidPlayer)
-                                            ConfigLoader.setOwnerPlayer(sender, AutoGroupOnMove.owners)
+                                            ConfigLoader.setAutoPlayer(sender, AutoGroupOnMove.owners)
                                             AutoGroupOnMove.removeVoiceChannel(uuidPlayer)
-                                            sender.sendMessage(templateMessage("${uuidPlayer.displayName} をオーナープレイヤーから削除しました"))
+                                            sender.sendMessage(templateMessage("&6${uuidPlayer.displayName} &fをオーナープレイヤーから削除しました"))
                                         } else {
-                                            sender.sendMessage(templateMessage("&c${uuidPlayer.displayName} はオーナープレイヤーではありません"))
+                                            sender.sendMessage(templateMessage("&6${uuidPlayer.displayName} &cはオーナープレイヤーではありません"))
                                         }
                                     }
                                     "list" -> {
@@ -87,14 +95,27 @@ object CommandCreator {
                                             templateMessage(
                                                 """
                                                     コマンド一覧
-                                                    &7- &a/$label auto add <UUID/PlayerName> &7自動モードでのオーナープレイヤーを追加します
-                                                    &7- &a/$label auto remove <UUID/PlayerName> &7自動モードでのオーナープレイヤーを削除します
-                                                    &7- &a/$label auto list &7自動モードでのオーナープレイヤーの一覧を確認します
+                                                    &7- &a/$label auto player add <UUID/PlayerName> &7自動モードでのオーナープレイヤーを追加します
+                                                    &7- &a/$label auto player remove <UUID/PlayerName> &7自動モードでのオーナープレイヤーを削除します
+                                                    &7- &a/$label auto player list &7自動モードでのオーナープレイヤーの一覧を確認します
                                                 """.trimIndent()
                                             )
                                         )
                                     }
                                 }
+                            }
+                            else -> {
+                                sender.sendMessage(
+                                    templateMessage(
+                                        """
+                                            コマンド一覧
+                                            &7- &a/$label auto radius [Radius] &7声が聞こえる範囲を設定します
+                                            &7- &a/$label auto player add <UUID/PlayerName> &7自動モードでのオーナープレイヤーの一覧を確認します
+                                            &7- &a/$label auto player remove <UUID/PlayerName> &7自動モードでのオーナープレイヤーの一覧を確認します
+                                            &7- &a/$label auto player list &7自動モードでのオーナープレイヤーの一覧を確認します
+                                        """.trimIndent()
+                                    )
+                                )
                             }
                         }
                     }
@@ -110,9 +131,10 @@ object CommandCreator {
                                     コマンド一覧
                                     &7- &a/$label mode [Auto/Item] &7モードの切り替えをします
                                     &7- &a/$label item &7アイテムモードでのミュート切り替え用のアイテムを入手します
-                                    &7- &a/$label auto add <UUID/PlayerName> &7自動モードでのオーナープレイヤーの一覧を確認します
-                                    &7- &a/$label auto remove <UUID/PlayerName> &7自動モードでのオーナープレイヤーの一覧を確認します
-                                    &7- &a/$label auto list &7自動モードでのオーナープレイヤーの一覧を確認します
+                                    &7- &a/$label auto radius [Radius] &7声が聞こえる範囲を設定します
+                                    &7- &a/$label auto player add <UUID/PlayerName> &7自動モードでのオーナープレイヤーの一覧を確認します
+                                    &7- &a/$label auto player remove <UUID/PlayerName> &7自動モードでのオーナープレイヤーの一覧を確認します
+                                    &7- &a/$label auto player list &7自動モードでのオーナープレイヤーの一覧を確認します
                                     &7- &a/$label reload &7コンフィグをリロードします
                                 """.trimIndent()
                             )

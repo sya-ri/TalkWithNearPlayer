@@ -25,7 +25,7 @@ item: # mode == Item : ミュート切り替えアイテムの設定
   type: SLIME_BALL # アイテムマテリアル
   name: "&aミュート切り替え" # アイテム名
 auto: # mode == Auto : 自動部屋移動の設定
-  radius: 5 # プレイヤーを部屋に入れる半径
+  radius: 5 # 声が聞こえる半径
   player: [] # 部屋のオーナー
 ```
 
@@ -44,7 +44,10 @@ auto: # mode == Auto : 自動部屋移動の設定
 | /twnp mode Auto | 自動部屋分けモードになります。|
 | /twnp mode Item | アイテムを使ったミュート切り替えモードになります。|
 | /twnp item | ミュート切り替え用のアイテムを入手します。|
-| /twnp auto | 自動部屋分けモードのオーナー一覧を表示します。|
+| /twnp auto radius | 自動部屋分けモードの声が聞こえる範囲を設定します。|
+| /twnp auto player add | 自動部屋分けモードのオーナーを追加します。|
+| /twnp auto player remove | 自動部屋分けモードのオーナーを削除します。|
+| /twnp auto player list | 自動部屋分けモードのオーナー一覧を表示します。|
 | /twnp reload | コンフィグのリロードをします。|
 
 ## 権限
