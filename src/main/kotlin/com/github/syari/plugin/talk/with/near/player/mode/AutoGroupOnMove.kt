@@ -14,22 +14,28 @@ object AutoGroupOnMove : EventRegister {
     const val defaultRadius = 5.0
 
     var radius = defaultRadius
-    var owners = listOf<UUIDPlayer>()
+    var owners = mutableListOf<UUIDPlayer>()
         set(value) {
             field = value
             plugin.runTaskLater(20, true) {
-                (value + null).forEach {
-                    if (ownerToChannel.contains(it).not()) {
-                        val result = DiscordClient.crate("twnp-${it?.uniqueId ?: "wait"}")
-                        if (result is DiscordClient.CreateResult.Success) {
-                            ownerToChannel[it] = result.channel.idLong
-                        } else if (result is DiscordClient.CreateResult.Failure) {
-                            plugin.logger.warning(result.message)
-                        }
-                    }
-                }
+                (value + null).forEach(::createVoiceChannel)
             }
         }
+
+    fun createVoiceChannel(uuidPlayer: UUIDPlayer?) {
+        if (ownerToChannel.contains(uuidPlayer).not()) {
+            val result = DiscordClient.crate("twnp-${uuidPlayer?.uniqueId ?: "wait"}")
+            if (result is DiscordClient.CreateResult.Success) {
+                ownerToChannel[uuidPlayer] = result.channel.idLong
+            } else if (result is DiscordClient.CreateResult.Failure) {
+                plugin.logger.warning(result.message)
+            }
+        }
+    }
+
+    fun removeVoiceChannel(uuidPlayer: UUIDPlayer?) {
+        ownerToChannel[uuidPlayer]?.let(DiscordClient::removeChannel)
+    }
 
     private val ownerToChannel = mutableMapOf<UUIDPlayer?, Long>()
 

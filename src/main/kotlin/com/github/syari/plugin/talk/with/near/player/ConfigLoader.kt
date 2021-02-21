@@ -39,8 +39,8 @@ object ConfigLoader {
                     ToggleMuteUseItem.item = ToggleMuteUseItem.createItem(toggleItemType, toggleItemName)
                 }
                 Mode.Auto -> {
-                    AutoGroupOnMove.radius = get(Key.auto_radius, ConfigDataType.Double, 5.0)
-                    AutoGroupOnMove.owners = get(Key.auto_player, ConfigDataType.StringList)?.mapNotNull(UUIDPlayer.Companion::from).orEmpty()
+                    AutoGroupOnMove.radius = get(Key.auto_radius, ConfigDataType.Double, AutoGroupOnMove.defaultRadius)
+                    AutoGroupOnMove.owners = get(Key.auto_player, ConfigDataType.StringList)?.mapNotNull(UUIDPlayer.Companion::from).orEmpty().toMutableList()
                 }
             }
         }
@@ -50,6 +50,12 @@ object ConfigLoader {
     fun setMode(sender: CommandSender, mode: Mode) {
         plugin.config(sender, "config.yml", default) {
             set(Key.mode, ConfigDataType.String, mode.toString(), true)
+        }
+    }
+
+    fun setOwnerPlayer(sender: CommandSender, owners: List<UUIDPlayer>) {
+        plugin.config(sender, "config.yml", default) {
+            set(Key.auto_player, ConfigDataType.UUIDList, owners.map(UUIDPlayer::uniqueId), true)
         }
     }
 
