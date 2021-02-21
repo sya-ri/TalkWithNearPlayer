@@ -1,6 +1,7 @@
 package com.github.syari.plugin.talk.with.near.player.discord
 
 import com.github.syari.plugin.talk.with.near.player.Main.Companion.plugin
+import com.github.syari.spigot.api.scheduler.runTask
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.util.uuid.UUIDPlayer
 import net.dv8tion.jda.api.JDA
@@ -86,10 +87,12 @@ object DiscordClient {
         lastRoom[userId] = room
         val member = guild.getMemberById(userId) ?: return "ユーザーが見つかりませんでした"
         val channel = jda?.getVoiceChannelById(room) ?: return "チャンネルが見つかりませんでした"
-        try {
-            guild.moveVoiceMember(member, channel).complete()
-        } catch (ex: RateLimitedException) {
-            ex.printStackTrace()
+        plugin.runTask(true) {
+            try {
+                guild.moveVoiceMember(member, channel).complete()
+            } catch (ex: RateLimitedException) {
+                ex.printStackTrace()
+            }
         }
         return null
     }
