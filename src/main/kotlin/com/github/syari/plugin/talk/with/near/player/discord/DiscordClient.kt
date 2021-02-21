@@ -66,7 +66,6 @@ object DiscordClient {
         lastMute[userId] = mute
         val member = guild.getMemberById(userId) ?: return "ユーザーが見つかりませんでした"
         return try {
-            member.deafen(mute).submit().join()
             member.mute(mute).submit().join()
             null
         } catch (ex: InsufficientPermissionException) {
