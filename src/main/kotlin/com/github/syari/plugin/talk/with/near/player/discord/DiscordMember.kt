@@ -50,8 +50,11 @@ class DiscordMember(val discordUserId: Long) {
     val asTag
         get() = user?.asTag
 
+    val displayName
+        get() = asTag ?: discordUserId.toString()
+
     companion object {
-        private var list = mutableMapOf<UUIDPlayer, DiscordMember>()
+        var list = mutableMapOf<UUIDPlayer, DiscordMember>()
 
         fun get(player: Player) = UUIDPlayer.from(player).let(list::get)
 

@@ -32,6 +32,14 @@ object DiscordClient {
     val botName
         get() = jda?.selfUser?.name
 
+    fun checkBot(): String {
+        if (lastToken == null) return "トークンが設定されていません。 (config.yml >> discord.token)"
+        val botName = botName ?: return "ボットとの接続が出来ていません。トークンを見直してみてください。"
+        if (guildId == null) return "Discordサーバーが設定されていません。 (config.yml >> discord.guild)"
+        val guild = guild ?: return "Discordサーバーが見つかりませんでした。ギルドIDを見直してみてください。"
+        return "$botName と接続中です。${guild.name} 内のボイスチャンネルに参加してください。"
+    }
+
     fun login(token: String?) {
         if (token != lastToken) {
             jda?.shutdownNow()

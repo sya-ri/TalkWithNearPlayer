@@ -28,7 +28,7 @@ object CommandCreator {
                         }
                         val member = DiscordMember.get(player)
                         if (member != null) {
-                            sender.sendMessage(templateMessage("&6${member.asTag ?: member.discordUserId} &fと連携しています。連携解除は &a/$label disconnect"))
+                            sender.sendMessage(templateMessage("&6${member.displayName} &fと連携しています。連携解除は &a/$label disconnect"))
                         } else {
                             val uuidPlayer = UUIDPlayer.from(player)
                             val authCode = DiscordMember.generateAuthCode(uuidPlayer)
@@ -43,7 +43,7 @@ object CommandCreator {
                         if (member != null) {
                             val uuidPlayer = UUIDPlayer.from(player)
                             DiscordMember.removePlayer(uuidPlayer)
-                            sender.sendMessage(templateMessage("&6${member.asTag ?: member.discordUserId} &fとの連携を解除しました"))
+                            sender.sendMessage(templateMessage("&6${member.displayName} &fとの連携を解除しました"))
                         } else {
                             sender.sendMessage(templateMessage("&fDiscordと連携していません"))
                         }
@@ -66,7 +66,8 @@ object CommandCreator {
             aliases = listOf("twnpa")
             permission = "twnp.admin"
             tab {
-                argument { add("mode", "item", "auto", "reload") }
+                argument { add("check", "mode", "item", "auto", "reload") }
+                argument("check") { add("bot", "player") }
                 argument("mode") { addAll(Mode.values().map(Mode::name)) }
                 argument("auto") { add("radius", "player") }
                 argument("auto player") { add("add", "remove", "list") }
@@ -75,6 +76,50 @@ object CommandCreator {
             }
             execute {
                 when (args.lowerOrNull(0)) {
+                    "check" -> {
+                        when (args.lowerOrNull(1)) {
+                            "bot" -> {
+                                sender.sendMessage(templateMessage(DiscordClient.checkBot()))
+                            }
+                            "player" -> {
+                                val connectList = DiscordMember.list
+                                sender.sendMessage(
+                                    templateMessage(
+                                        buildString {
+                                            appendLine("&f連携済みのプレイヤー &6(${connectList.size})")
+                                            connectList.forEach { (uuidPlayer, discordMember) ->
+                                                val playerName = uuidPlayer.displayName
+                                                val player = uuidPlayer.offlinePlayer
+                                                val playerState = when {
+                                                    player.isOnline -> "&a(online)"
+                                                    player.name != null -> "&c(offline)"
+                                                    else -> "&e(???)"
+                                                }
+                                                val discordName = discordMember.displayName
+                                                val discordState = if (discordMember.asTag != null) {
+                                                    "&a(OK)"
+                                                } else {
+                                                    "&e(???)"
+                                                }
+                                                appendLine("&7- &6$playerName$playerState &7➡ &6$discordName$discordState")
+                                            }
+                                        }
+                                    )
+                                )
+                            }
+                            else -> {
+                                sender.sendMessage(
+                                    templateMessage(
+                                        """
+                                            コマンド一覧
+                                            &7- &a/$label check bot &7ボットの状態を確認します
+                                            &7- &a/$label check player &7連携済みのプレイヤー一覧を表示します
+                                        """.trimIndent()
+                                    )
+                                )
+                            }
+                        }
+                    }
                     "mode" -> {
                         val mode = args.lowerOrNull(1)?.let(Mode::get)
                         if (mode != null) {
@@ -178,6 +223,8 @@ object CommandCreator {
                             templateMessage(
                                 """
                                     コマンド一覧
+                                    &7- &a/$label check bot &7ボットの状態を確認します
+                                    &7- &a/$label check player &7連携済みのプレイヤー一覧を表示します
                                     &7- &a/$label mode [Auto/Item] &7モードの切り替えをします
                                     &7- &a/$label item &7アイテムモードでのミュート切り替え用のアイテムを入手します
                                     &7- &a/$label auto radius [Radius] &7声が聞こえる範囲を設定します
