@@ -15,6 +15,7 @@ object AutoGroupOnMove : EventRegister {
 
     var radius = defaultRadius
     var owners = mutableListOf<UUIDPlayer>()
+    var categoryId: Long? = null
 
     fun createAllVoiceChannel() {
         plugin.runTaskLater(20, true) {
@@ -25,7 +26,7 @@ object AutoGroupOnMove : EventRegister {
 
     fun createVoiceChannel(uuidPlayer: UUIDPlayer?) {
         if (ownerToChannel.contains(uuidPlayer).not()) {
-            val result = DiscordClient.crate("twnp-${uuidPlayer?.uniqueId ?: "wait"}")
+            val result = DiscordClient.crate("twnp-${uuidPlayer?.uniqueId ?: "wait"}", categoryId)
             if (result is DiscordClient.CreateResult.Success) {
                 ownerToChannel[uuidPlayer] = result.channel.idLong
             } else if (result is DiscordClient.CreateResult.Failure) {

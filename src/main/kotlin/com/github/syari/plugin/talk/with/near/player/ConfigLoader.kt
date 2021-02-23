@@ -20,6 +20,7 @@ object ConfigLoader {
         const val item_name = "item.name"
         const val auto_radius = "auto.radius"
         const val auto_player = "auto.player"
+        const val auto_category = "auto.category"
     }
 
     fun load(sender: CommandSender) {
@@ -37,6 +38,7 @@ object ConfigLoader {
             ToggleMuteUseItem.item = ToggleMuteUseItem.createItem(toggleItemType, toggleItemName)
             AutoGroupOnMove.radius = get(Key.auto_radius, ConfigDataType.Double, AutoGroupOnMove.defaultRadius)
             AutoGroupOnMove.owners = get(Key.auto_player, ConfigDataType.StringList)?.mapNotNull(UUIDPlayer.Companion::from).orEmpty().toMutableList()
+            AutoGroupOnMove.categoryId = get(Key.auto_category, ConfigDataType.Long, false)
         }
         DiscordMember.ConfigLoader.load(sender)
         Mode.applyMode()

@@ -118,10 +118,12 @@ object DiscordClient {
         class Failure(val message: String) : CreateResult()
     }
 
-    fun crate(name: String): CreateResult {
+    fun crate(name: String, categoryId: Long?): CreateResult {
         val guild = guild ?: return CreateResult.Failure("ギルドが見つかりませんでした")
         val channel = try {
-            guild.createVoiceChannel(name).complete()
+            guild.createVoiceChannel(name).apply {
+                categoryId?.let(guild::getCategoryById)?.let(::setParent)
+            }.complete()
         } catch (ex: RejectedExecutionException) {
             return CreateResult.Failure("チャンネルの作成に失敗しました")
         }

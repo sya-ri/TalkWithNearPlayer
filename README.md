@@ -80,6 +80,7 @@ item: # mode == Item : ミュート切り替えアイテムの設定
 auto: # mode == Auto : 自動部屋移動の設定
   radius: 5 # 声が聞こえる半径
   player: [] # 部屋のオーナー
+  category: null # 自動生成されるチャンネルを入れるカテゴリーのID
 ```
 
 ### player.yml
