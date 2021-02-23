@@ -18,7 +18,7 @@ class Main : JavaPlugin() {
     override fun onEnable() {
         ConfigLoader.load(server.consoleSender)
         CommandCreator.create()
-        registerEvents(ToggleMuteUseItem, AutoGroupOnMove)
+        registerEvents(ToggleMuteUseItem)
     }
 
     override fun onDisable() {

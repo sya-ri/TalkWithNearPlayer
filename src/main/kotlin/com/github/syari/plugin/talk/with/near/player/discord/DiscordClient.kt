@@ -88,15 +88,8 @@ object DiscordClient {
     }
 
     private val lastRoom = mutableMapOf<Long, Long>()
-    private val moveCoolTime = mutableSetOf<UUIDPlayer>()
 
     fun move(player: Player, room: Long): String? {
-        val uuidPlayer = UUIDPlayer.from(player)
-        if (moveCoolTime.contains(uuidPlayer)) return null
-        moveCoolTime.add(uuidPlayer)
-        plugin.runTaskLater(15) {
-            moveCoolTime.remove(uuidPlayer)
-        }
         val guild = guild ?: return "ギルドが見つかりませんでした"
         val userId = DiscordMember.get(player)?.discordUserId ?: return "アカウントの紐付けがされていません"
         if (lastRoom[userId] == room) return null
@@ -140,6 +133,20 @@ object DiscordClient {
         return try {
             val overrideAction = channel.getPermissionOverride(guild.publicRole)?.manager ?: channel.createPermissionOverride(guild.publicRole)
             overrideAction.setDeny(Permission.VOICE_SPEAK).complete()
+            null
+        } catch (ex: InsufficientPermissionException) {
+            "ボットの権限がありません"
+        } catch (ex: IllegalArgumentException) {
+            "存在しないメンバーです"
+        }
+    }
+
+    fun removeMutePermission(id: Long): String? {
+        val guild = guild ?: return "ギルドが見つかりませんでした"
+        val channel = jda?.getVoiceChannelById(id) ?: return "チャンネルが見つかりませんでした"
+        return try {
+            val overrideAction = channel.getPermissionOverride(guild.publicRole)?.manager ?: channel.createPermissionOverride(guild.publicRole)
+            overrideAction.setAllow(Permission.VOICE_SPEAK).complete()
             null
         } catch (ex: InsufficientPermissionException) {
             "ボットの権限がありません"

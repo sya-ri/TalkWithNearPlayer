@@ -12,8 +12,10 @@ enum class Mode(val key: String) {
         fun applyMode() {
             if (mode == Auto) {
                 AutoGroupOnMove.createAllVoiceChannel()
+                AutoGroupOnMove.registerTask()
             } else {
                 AutoGroupOnMove.clearVoiceChannels()
+                AutoGroupOnMove.unregisterTask()
             }
         }
     }
