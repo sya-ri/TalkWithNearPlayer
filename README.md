@@ -6,12 +6,12 @@
 ### 自動部屋分けモード
 [![Youtubeで開く](http://img.youtube.com/vi/xTFWXIlT1g4/0.jpg)](http://www.youtube.com/watch?v=xTFWXIlT1g4 "")
 
-部屋のオーナープレイヤーを設定することでそのプレイヤーの付近では話せるようになります。
+部屋のオーナープレイヤーを設定することでそのプレイヤーの付近では話せるようになる。
 
 ### アイテムを使ったミュート切り替えモード
 [![Youtubeで開く](http://img.youtube.com/vi/ZSiLYEWhbqg/0.jpg)](http://www.youtube.com/watch?v=ZSiLYEWhbqg "")
 
-専用のアイテムでプレイヤーをクリックすることでミュートを切り替えることができます。
+専用のアイテムでプレイヤーをクリックすることでミュートを切り替えることができる。
 
 ## 導入
 
@@ -56,7 +56,7 @@
 1. `/twnpa mode Item` を実行する。
 2. `/twnpa item` でミュート切り替え用のアイテムを入手する。
 3. ミュート切り替え用のアイテムでプレイヤーをクリックすることでミュートの切り替えを行える。
-4. エラーがあった場合、チャット欄に表示されます。
+4. エラーがあった場合、チャット欄に表示される。
 
 ## 動画や生放送で使用する場合
 
@@ -94,15 +94,15 @@ auto: # mode == Auto : 自動部屋移動の設定
 ## コマンド
 
 ### /twnp
-`/talk-with-near-player` というコマンドの省略形です。通常プレイヤー向けのコマンドです。
+`/talk-with-near-player` というコマンドの省略形。通常プレイヤー向けのコマンド。
 
 | コマンド | 説明 |
 |--------|------|
-| /twnp connect | Discordと連携します。|
-| /twnp disconnect | Discordとの連携を解除します。|
+| /twnp connect | Discordと連携する。|
+| /twnp disconnect | Discordとの連携を解除する。|
 
 ### /twnpa
-`/talk-with-near-player-admin` というコマンドの省略形です。設定・管理用のコマンドです。
+`/talk-with-near-player-admin` というコマンドの省略形。設定・管理用のコマンド。
 
 | 権限名 | 説明 |
 |-------|-----|
@@ -110,17 +110,17 @@ auto: # mode == Auto : 自動部屋移動の設定
 
 | コマンド | 説明 |
 |--------|------|
-| /twnpa check bot | ボットの状態を確認します。|
-| /twnpa check player | 連携済みのプレイヤーを表示します。|
-| /twnpa mode | モードの切り替えが可能です。|
-| /twnpa mode Auto | 自動部屋分けモードになります。|
-| /twnpa mode Item | アイテムを使ったミュート切り替えモードになります。|
-| /twnpa item | ミュート切り替え用のアイテムを入手します。|
-| /twnpa auto radius | 自動部屋分けモードの声が聞こえる範囲を設定します。|
-| /twnpa auto player add | 自動部屋分けモードのオーナーを追加します。|
-| /twnpa auto player remove | 自動部屋分けモードのオーナーを削除します。|
-| /twnpa auto player list | 自動部屋分けモードのオーナー一覧を表示します。|
-| /twnpa reload | コンフィグのリロードをします。|
+| /twnpa check bot | ボットの状態を確認する。|
+| /twnpa check player | 連携済みのプレイヤーを表示する。|
+| /twnpa mode | 現在のモードを表示。|
+| /twnpa mode Auto | 自動部屋分けモードに変更する。|
+| /twnpa mode Item | アイテムを使ったミュート切り替えモードに変更する。|
+| /twnpa item | ミュート切り替え用のアイテムを入手する。|
+| /twnpa auto radius | 自動部屋分けモードの声が聞こえる範囲を設定する。|
+| /twnpa auto player add | 自動部屋分けモードのオーナーを追加する。|
+| /twnpa auto player remove | 自動部屋分けモードのオーナーを削除する。|
+| /twnpa auto player list | 自動部屋分けモードのオーナー一覧を表示する。|
+| /twnpa reload | コンフィグのリロードをする。|
 
 ## 開発者向け
 
@@ -131,18 +131,18 @@ auto: # mode == Auto : 自動部屋移動の設定
 gradle ktlintFormat
 ```
 
-ソースコードを綺麗にすることができます。
+ソースコードを綺麗にすることができる。
 
 #### addKtlintFormatGitPreCommitHook
 ```
 gradle addKtlintFormatGitPreCommitHook
 ```
 
-Git Commit する時に `ktlintFormat` を実行します。やっておくことで必ずフォーマットしてくれるようになるので忘れがちな人にオススメです。
+Git Commit する時に `ktlintFormat` を実行する。
 
 #### shadowJar
 ```
 gradle shadowJar
 ```
 
-Jar ファイルを生成します。`build/libs` フォルダの中に生成されます。
+Jar ファイルを生成する。`build/libs` フォルダの中に生成される。
