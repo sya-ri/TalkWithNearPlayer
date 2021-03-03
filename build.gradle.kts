@@ -26,7 +26,7 @@ dependencies {
     shadowImplementation("com.github.sya-ri:EasySpigotAPI:1.3.4") {
         exclude(group = "org.spigotmc", module = "spigot-api")
     }
-    shadowImplementation("net.dv8tion:JDA:4.2.0_228")
+    shadowImplementation("net.dv8tion:JDA:4.2.0_231")
 }
 
 configure<KtlintExtension> {
