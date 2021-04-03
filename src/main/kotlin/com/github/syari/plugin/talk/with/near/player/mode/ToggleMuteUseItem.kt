@@ -2,6 +2,7 @@ package com.github.syari.plugin.talk.with.near.player.mode
 
 import com.github.syari.plugin.talk.with.near.player.Main.Companion.plugin
 import com.github.syari.plugin.talk.with.near.player.discord.DiscordClient
+import com.github.syari.plugin.talk.with.near.player.mainHand.MainHandItem.Companion.mainHandItem
 import com.github.syari.plugin.talk.with.near.player.templateMessage
 import com.github.syari.plugin.talk.with.near.player.toColor
 import com.github.syari.spigot.api.event.events
@@ -30,7 +31,7 @@ object ToggleMuteUseItem {
             event<PlayerInteractEntityEvent> { e ->
                 if (Mode.mode == Mode.Item) {
                     val player = e.player
-                    val mainHandItem = player.inventory.itemInMainHand
+                    val mainHandItem = mainHandItem.getFromInventory(player.inventory)
                     if (mainHandItem.isSimilar(item)) {
                         val targetPlayer = e.rightClicked as? Player ?: return@event
                         DiscordClient.mute(targetPlayer, false)?.let {
@@ -42,7 +43,7 @@ object ToggleMuteUseItem {
             event<EntityDamageByEntityEvent> { e ->
                 if (Mode.mode == Mode.Item) {
                     val player = e.damager as? Player ?: return@event
-                    val mainHandItem = player.inventory.itemInMainHand
+                    val mainHandItem = mainHandItem.getFromInventory(player.inventory)
                     if (mainHandItem.isSimilar(item)) {
                         val targetPlayer = e.entity as? Player ?: return@event
                         e.isCancelled = true
