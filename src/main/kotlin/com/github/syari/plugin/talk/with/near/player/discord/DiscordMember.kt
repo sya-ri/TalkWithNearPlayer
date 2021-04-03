@@ -4,7 +4,7 @@ import com.github.syari.plugin.talk.with.near.player.Main.Companion.plugin
 import com.github.syari.plugin.talk.with.near.player.displayName
 import com.github.syari.spigot.api.config.config
 import com.github.syari.spigot.api.config.type.ConfigDataType
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -36,7 +36,7 @@ class DiscordMember(val discordUserId: Long) {
                 section("")?.forEach {
                     val uuid = get("$it.uuid", ConfigDataType.UUID, false)
                     if (uuid == uuidPlayer.uniqueId) {
-                        setUnsafe(it, null)
+                        setNull(it)
                         return@config
                     }
                 }

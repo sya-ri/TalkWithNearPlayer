@@ -5,7 +5,7 @@ import com.github.syari.plugin.talk.with.near.player.discord.DiscordClient
 import com.github.syari.plugin.talk.with.near.player.discord.DiscordMember
 import com.github.syari.spigot.api.scheduler.runTaskLater
 import com.github.syari.spigot.api.scheduler.runTaskTimer
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitTask
 

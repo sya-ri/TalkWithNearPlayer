@@ -8,7 +8,7 @@ import com.github.syari.plugin.talk.with.near.player.mode.Mode
 import com.github.syari.plugin.talk.with.near.player.mode.ToggleMuteUseItem
 import com.github.syari.spigot.api.command.command
 import com.github.syari.spigot.api.command.tab.CommandTabArgument.Companion.argument
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
@@ -18,7 +18,7 @@ object CommandCreator {
         plugin.command("talk-with-near-player") {
             aliases = listOf("twnp")
             tab {
-                argument { add("connect", "disconnect") }
+                argument { addAll("connect", "disconnect") }
             }
             execute {
                 when (args.lowerOrNull(0)) {
@@ -66,11 +66,11 @@ object CommandCreator {
             aliases = listOf("twnpa")
             permission = "twnp.admin"
             tab {
-                argument { add("check", "mode", "item", "auto", "reload") }
-                argument("check") { add("bot", "player") }
+                argument { addAll("check", "mode", "item", "auto", "reload") }
+                argument("check") { addAll("bot", "player") }
                 argument("mode") { addAll(Mode.values().map(Mode::name)) }
-                argument("auto") { add("radius", "player") }
-                argument("auto player") { add("add", "remove", "list") }
+                argument("auto") { addAll("radius", "player") }
+                argument("auto player") { addAll("add", "remove", "list") }
                 argument("auto player add") { addAll(plugin.server.offlinePlayers.mapNotNull(OfflinePlayer::getName)) }
                 argument("auto player remove") { addAll(AutoGroupOnMove.owners.map(UUIDPlayer::displayName)) }
             }

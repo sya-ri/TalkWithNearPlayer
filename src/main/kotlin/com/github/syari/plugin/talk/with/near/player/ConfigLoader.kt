@@ -7,8 +7,9 @@ import com.github.syari.plugin.talk.with.near.player.mode.AutoGroupOnMove
 import com.github.syari.plugin.talk.with.near.player.mode.Mode
 import com.github.syari.plugin.talk.with.near.player.mode.ToggleMuteUseItem
 import com.github.syari.spigot.api.config.config
+import com.github.syari.spigot.api.config.def.DefaultConfigMap
 import com.github.syari.spigot.api.config.type.ConfigDataType
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import org.bukkit.command.CommandSender
 
 object ConfigLoader {
@@ -24,7 +25,7 @@ object ConfigLoader {
     }
 
     fun load(sender: CommandSender) {
-        plugin.config(sender, "config.yml", default) {
+        plugin.config(sender, "config.yml", DefaultConfigMap(default)) {
             val token = get(Key.discord_token, ConfigDataType.String)
             DiscordClient.login(token)
             if (DiscordClient.isLogin.not()) {
@@ -45,19 +46,19 @@ object ConfigLoader {
     }
 
     fun setMode(sender: CommandSender, mode: Mode) {
-        plugin.config(sender, "config.yml", default) {
+        plugin.config(sender, "config.yml", DefaultConfigMap(default)) {
             set(Key.mode, ConfigDataType.String, mode.toString(), true)
         }
     }
 
     fun setAutoRadius(sender: CommandSender, radius: Double) {
-        plugin.config(sender, "config.yml", default) {
+        plugin.config(sender, "config.yml", DefaultConfigMap(default)) {
             set(Key.auto_radius, ConfigDataType.Double, radius, true)
         }
     }
 
     fun setAutoPlayer(sender: CommandSender, owners: List<UUIDPlayer>) {
-        plugin.config(sender, "config.yml", default) {
+        plugin.config(sender, "config.yml", DefaultConfigMap(default)) {
             set(Key.auto_player, ConfigDataType.UUIDList, owners.map(UUIDPlayer::uniqueId), true)
         }
     }

@@ -1,6 +1,6 @@
 package com.github.syari.plugin.talk.with.near.player
 
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import org.bukkit.ChatColor
 
 fun String.toColor() = ChatColor.translateAlternateColorCodes('&', this)

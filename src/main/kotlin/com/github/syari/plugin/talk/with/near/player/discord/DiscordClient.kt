@@ -3,7 +3,7 @@ package com.github.syari.plugin.talk.with.near.player.discord
 import com.github.syari.plugin.talk.with.near.player.Main.Companion.plugin
 import com.github.syari.spigot.api.scheduler.runTask
 import com.github.syari.spigot.api.scheduler.runTaskLater
-import com.github.syari.spigot.api.util.uuid.UUIDPlayer
+import com.github.syari.spigot.api.uuid.UUIDPlayer
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.Permission
