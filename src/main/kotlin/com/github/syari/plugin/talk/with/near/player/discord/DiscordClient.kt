@@ -60,6 +60,7 @@ object DiscordClient {
         }
     }
 
+    private val speakingPlayers = mutableSetOf<UUIDPlayer>()
     private val lastMute = mutableMapOf<Long, Boolean>()
     private val muteCoolTime = mutableSetOf<UUIDPlayer>()
 
@@ -77,6 +78,11 @@ object DiscordClient {
         val member = guild.getMemberById(userId) ?: return "ユーザーが見つかりませんでした"
         return try {
             member.mute(mute).submit().join()
+            if (mute) {
+                speakingPlayers.remove(uuidPlayer)
+            } else {
+                speakingPlayers.add(uuidPlayer)
+            }
             null
         } catch (ex: InsufficientPermissionException) {
             "ボットの権限がありません"
@@ -85,6 +91,18 @@ object DiscordClient {
         } catch (ex: IllegalStateException) {
             null
         }
+    }
+
+    fun muteAll(): List<Pair<String, String>> {
+        val errorMessages = mutableListOf<Pair<String, String>>()
+        speakingPlayers.toList().forEach { uuidPlayer ->
+            uuidPlayer.player?.let { player ->
+                mute(player, true)?.let {
+                    errorMessages.add(player.name to it)
+                }
+            }
+        }
+        return errorMessages
     }
 
     private val lastRoom = mutableMapOf<Long, Long>()

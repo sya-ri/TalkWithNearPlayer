@@ -6,10 +6,12 @@ import com.github.syari.plugin.talk.with.near.player.mainHand.MainHandItem.Compa
 import com.github.syari.plugin.talk.with.near.player.templateMessage
 import com.github.syari.plugin.talk.with.near.player.toColor
 import com.github.syari.spigot.api.event.events
+import com.github.syari.spigot.api.scheduler.runTask
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEntityEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
 object ToggleMuteUseItem {
@@ -34,21 +36,20 @@ object ToggleMuteUseItem {
                     val mainHandItem = mainHandItem.getFromInventory(player.inventory)
                     if (mainHandItem.isSimilar(item)) {
                         val targetPlayer = e.rightClicked as? Player ?: return@event
-                        DiscordClient.mute(targetPlayer, false)?.let {
-                            player.sendMessage(templateMessage("&c$it"))
+                        plugin.runTask(async = true) {
+                            DiscordClient.mute(targetPlayer, false)?.let {
+                                player.sendMessage(templateMessage("&c$it"))
+                            }
                         }
                     }
                 }
             }
-            event<EntityDamageByEntityEvent> { e ->
-                if (Mode.mode == Mode.Item) {
-                    val player = e.damager as? Player ?: return@event
-                    val mainHandItem = mainHandItem.getFromInventory(player.inventory)
-                    if (mainHandItem.isSimilar(item)) {
-                        val targetPlayer = e.entity as? Player ?: return@event
-                        e.isCancelled = true
-                        DiscordClient.mute(targetPlayer, true)?.let {
-                            player.sendMessage(templateMessage("&c$it"))
+            event<PlayerInteractEvent> { e ->
+                if (Mode.mode == Mode.Item && e.action == Action.LEFT_CLICK_AIR) {
+                    val player = e.player
+                    plugin.runTask(async = true) {
+                        DiscordClient.muteAll().forEach { (name, message) ->
+                            player.sendMessage(templateMessage("&c$name: $message"))
                         }
                     }
                 }
