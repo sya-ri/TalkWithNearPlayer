@@ -47,9 +47,12 @@ object ToggleMuteUseItem {
             event<PlayerInteractEvent> { e ->
                 if (Mode.mode == Mode.Item && e.action == Action.LEFT_CLICK_AIR) {
                     val player = e.player
-                    plugin.runTask(async = true) {
-                        DiscordClient.muteAll().forEach { (name, message) ->
-                            player.sendMessage(templateMessage("&c$name: $message"))
+                    val mainHandItem = mainHandItem.getFromInventory(player.inventory)
+                    if (mainHandItem.isSimilar(item)) {
+                        plugin.runTask(async = true) {
+                            DiscordClient.muteAll().forEach { (name, message) ->
+                                player.sendMessage(templateMessage("&c$name: $message"))
+                            }
                         }
                     }
                 }
