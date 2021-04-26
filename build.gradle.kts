@@ -3,7 +3,7 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
-    kotlin("jvm") version "1.4.32"
+    kotlin("jvm") version "1.5.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
